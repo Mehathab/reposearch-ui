@@ -2,7 +2,12 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
+    "auth-ui": "libs/auth-ui",
+    "common-utils-ui": "libs/common-utils-ui",
     "main-ui": "apps/main-ui",
-    "main-ui-e2e": "apps/main-ui-e2e"
+    "main-ui-e2e": "apps/main-ui-e2e",
+    "repo-search-ui": "libs/repo-search-ui",
+    "repo-search-ui-e2e": "apps/repo-search-ui-e2e",
+    "ui-components": "libs/ui-components"
   }
 }

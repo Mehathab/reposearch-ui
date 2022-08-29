@@ -14,7 +14,12 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@reposearch/auth-ui": ["libs/auth-ui/src/index.ts"],
+      "@reposearch/common-utils-ui": ["libs/common-utils-ui/src/index.ts"],
+      "@reposearch/repo-search-ui": ["libs/repo-search-ui/src/index.ts"],
+      "@reposearch/ui-components": ["libs/ui-components/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

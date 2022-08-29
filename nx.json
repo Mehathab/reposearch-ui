@@ -15,7 +15,13 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e",
+          "build-storybook"
+        ]
       }
     }
   },
@@ -40,5 +46,12 @@
       }
     }
   },
-  "defaultProject": "main-ui"
+  "defaultProject": "main-ui",
+  "docker": {
+    "executor": "@nx-tools/nx-docker:build",
+    "options": {
+      "push": true,
+      "tags": ["reposearch/main-ui:latest", "reposearch/main-ui:v1"]
+    }
+  }
 }

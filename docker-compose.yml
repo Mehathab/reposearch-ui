@@ -1,0 +1,26 @@
+version: '3.3'
+networks:
+  corp:
+    driver: bridge
+
+service:
+
+main-ui:
+  container_name: main-ui
+  build: 
+    context: ./
+    cache_from: 
+      - nginx:1.19.2
+    dockerfile: ./apps/main-ui/Dockerfile
+    args: 
+      NODE_ENV: 'development'
+      BUILD_FLAG: ''
+  image: main-ui:nx-dev
+  ports:
+    - 4200 : 3000
+  environment: 
+    NODE_ENV: "development"
+    PORT: 3000
+  networks:
+    - corp
+  restart: on-failure
