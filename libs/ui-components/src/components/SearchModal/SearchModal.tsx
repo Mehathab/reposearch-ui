@@ -13,23 +13,22 @@ import {
   ModalBody,
   ModalContent,
   ModalOverlay,
-  useBoolean,
   Box,
   InputRightElement,
-  Spinner,
   Divider,
   ModalHeader,
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import SearchModalStateIcon from './SearchModalStateIcon';
 
-/* eslint-disable-next-line */
 export interface SearchModalProps extends InputProps {
   children?: ReactNode;
   onClose?: () => void;
   isPending?: boolean;
   isSuccess?: boolean;
   isError?: boolean;
+  isShow: boolean;
+  setShowModal: { on: () => void; off: () => void; toggle: () => void };
 }
 
 export function SearchModal({
@@ -40,23 +39,26 @@ export function SearchModal({
   isError,
   isPending,
   isSuccess,
+  isShow: isShowModal,
+  setShowModal,
   ...restProps
 }: SearchModalProps) {
-  const [isShowModal, { toggle }] = useBoolean(false);
-
   const handleOnClose = () => {
-    toggle();
+    setShowModal.off();
     if (onClose) onClose();
   };
 
   return (
     <InputGroup>
       <InputLeftElement pointerEvents="none" children={<SearchIcon />} />
-      <Input {...restProps} isReadOnly={true} onClick={toggle} />
+      <Input {...restProps} isReadOnly={true} onClick={setShowModal.on} />
       <Modal
-        isOpen={isShowModal}
+        isOpen={!!isShowModal}
         onClose={handleOnClose}
         scrollBehavior="inside"
+        closeOnOverlayClick
+        closeOnEsc
+        colorScheme="teal"
       >
         <ModalOverlay />
         <ModalContent>

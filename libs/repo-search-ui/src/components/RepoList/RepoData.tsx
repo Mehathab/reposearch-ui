@@ -12,7 +12,7 @@ import {
   Button,
   SearchModalStateIcon,
 } from '@reposearch/ui-components';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import reposerver, { ReposerverRepo } from '../../services/reposerver';
 import { Accessors } from './utils';
 
@@ -20,12 +20,15 @@ import { Accessors } from './utils';
 export interface RepoDataProps {
   accessor: Accessors;
   data: ReposerverRepo;
-  callback: () => void;
+  callback?: () => void;
 }
 export function RepoData({ data, accessor, callback }: RepoDataProps) {
   const [state, dispatchDeleteRepo] = useApiReducer(() =>
     reposerver.deleteRepo(data?.id)
   );
+  useEffect(() => {
+    if (callback && state.isSuccess) callback();
+  }, [callback, state.isSuccess]);
   if (accessor === 'actions') {
     return (
       <Button onClick={dispatchDeleteRepo} disabled={state.isSuccess}>

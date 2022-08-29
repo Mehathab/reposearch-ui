@@ -14,9 +14,13 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  TableCaption,
 } from '@reposearch/ui-components';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import reposerver from '../../services/reposerver';
+import ReposerverProvider, {
+  ReposerverContext,
+} from '../ReposerverProvider/ReposerverProvider';
 import RepoData from './RepoData';
 import {
   headers,
@@ -29,24 +33,24 @@ import {
 export interface RepoListProps {}
 
 export function RepoList(props: RepoListProps) {
-  const [state, dispatchGetRepos] = useApiReducer(() => reposerver.getRepos());
+  const { getRepos, repos } = useContext(ReposerverContext) || {};
   useEffect(() => {
-    dispatchGetRepos();
+    if (getRepos) getRepos();
   }, []);
 
-  const { repos = [] } = state.data || {};
   const [menuType, setMenuType] = useState<
     keyof typeof sortByFunctionsMap | ''
   >('');
+
   const sortedRepos = menuType
-    ? repos?.sort(sortByFunctionsMap[menuType])
+    ? repos?.sort?.(sortByFunctionsMap[menuType])
     : repos;
   const handleMenuItemSelect =
     (key: keyof typeof sortByFunctionsMap | '') => () =>
       setMenuType(key);
   return (
     <>
-      <Menu>
+      <Menu variant="">
         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
           Sort by
         </MenuButton>
@@ -68,6 +72,10 @@ export function RepoList(props: RepoListProps) {
       </Menu>
       <TableContainer>
         <Table>
+          <TableCaption>
+            {`Repositories added: ${sortedRepos?.length}`}
+          </TableCaption>
+
           <Thead>
             <Tr>
               {headers?.map((eachHeader) => (
@@ -83,7 +91,7 @@ export function RepoList(props: RepoListProps) {
                     <RepoData
                       data={eachRepo}
                       accessor={accessor}
-                      callback={dispatchGetRepos}
+                      callback={getRepos}
                     />
                   </Td>
                 ))}
@@ -92,7 +100,7 @@ export function RepoList(props: RepoListProps) {
           </Tbody>
         </Table>
       </TableContainer>
-      {!sortedRepos.length && !state.isError && (
+      {!sortedRepos?.length && (
         <Text fontWeight={'normal'} m="5">
           Your saved reepositories list is empty{' '}
         </Text>

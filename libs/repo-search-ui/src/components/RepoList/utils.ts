@@ -6,7 +6,7 @@ export interface RepoServerRepo {
   stargazersCount: number;
   language: string;
   url: string;
-  actions: string;
+  actions?: string;
 }
 export type Accessors = keyof RepoServerRepo;
 export const headersMap = {
