@@ -5,7 +5,12 @@
   "scripts": {
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "main-ui-build": "nx build",
+    "main-ui-image": "docker image build -f Dockerfile -t main-ui .",
+    "main-ui-run": "docker-compose -f docker-compose.yml up",
+    "main-ui-stop": "docker-compose -f docker-compose.yml down",
+    "main-ui": "yarn main-ui-build && yarn main-ui-image && yarn main-ui-run"
   },
   "private": true,
   "dependencies": {

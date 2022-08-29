@@ -1,26 +1,42 @@
-version: '3.3'
-networks:
-  corp:
-    driver: bridge
+# version: '3.3'
+# networks:
+#   corp:
+#     driver: bridge
 
-service:
+# service:
 
-main-ui:
-  container_name: main-ui
-  build: 
-    context: ./
-    cache_from: 
-      - nginx:1.19.2
-    dockerfile: ./apps/main-ui/Dockerfile
-    args: 
-      NODE_ENV: 'development'
-      BUILD_FLAG: ''
-  image: main-ui:nx-dev
-  ports:
-    - 4200 : 3000
-  environment: 
-    NODE_ENV: "development"
-    PORT: 3000
-  networks:
-    - corp
-  restart: on-failure
+# main-ui:
+#   container_name: main-ui
+#   build: 
+#     context: ./
+#     cache_from: 
+#       - nginx:1.19.2
+#     dockerfile: ./apps/main-ui/Dockerfile
+#     args: 
+#       NODE_ENV: 'development'
+#       BUILD_FLAG: ''
+#   image: main-ui:nx-dev
+#   ports:
+#     - 4200 : 3000
+#   environment: 
+#     NODE_ENV: "development"
+#     PORT: 3000
+#   networks:
+#     - corp
+#   restart: on-failure
+
+
+
+
+version: '3.1'
+
+services:
+    main-ui:
+        image: 'main-ui'
+        build: '.'
+        ports:
+            - 4200:80 
+    reposerver:
+        image: gcr.io/hiring-278615/reposerver:v1.3
+        ports: 
+            - 8080:8080
